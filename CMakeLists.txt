@@ -44,7 +44,7 @@ if(rclcpp_FOUND AND ${COMPILE_METHOD} STREQUAL "COLCON")
   find_package(ament_cmake REQUIRED)
   find_package(sensor_msgs REQUIRED)
   find_package(rslidar_msg REQUIRED)
-  find_package(std_msgs REQUIRED)                      
+  find_package(std_msgs REQUIRED)
   set(CMAKE_CXX_STANDARD 14)
   message(=============================================================)
   message("-- ROS2 Found, Ros2 Support is turned On!")
@@ -127,7 +127,7 @@ if(NOT PROTOC MATCHES "NOTFOUND" AND Protobuf_FOUND)
               ${PROTO_FILE_PATH}/scan.pb.cc
               ${PROTO_FILE_PATH}/point_cloud.pb.cc
               )
-  target_link_libraries(rslidar_sdk_node                   
+  target_link_libraries(rslidar_sdk_node
                       ${PCL_LIBRARIES}
                       ${YAML_CPP_LIBRARIES}
                       ${PROTOBUF_LIBRARY}
@@ -138,7 +138,7 @@ else(NOT PROTOC MATCHES "NOTFOUND" AND Protobuf_FOUND)
               node/rslidar_sdk_node.cpp
               src/manager/adapter_manager.cpp
               )
-  target_link_libraries(rslidar_sdk_node                   
+  target_link_libraries(rslidar_sdk_node
                       ${PCL_LIBRARIES}
                       ${YAML_CPP_LIBRARIES}
                       ${rs_driver_LIBRARIES}
@@ -147,6 +147,18 @@ endif(NOT PROTOC MATCHES "NOTFOUND" AND Protobuf_FOUND)
 #Ros#
 if(roscpp_FOUND)
   target_link_libraries(rslidar_sdk_node ${roscpp_LIBRARIES})
+  install(
+    TARGETS rslidar_sdk_node
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  )
+  install(DIRECTORY
+    config
+    launch
+    rviz
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  )
 endif(roscpp_FOUND)
 #Ros2#
 if(rclcpp_FOUND AND ${COMPILE_METHOD} STREQUAL "COLCON")
